@@ -19,6 +19,24 @@
   backdrop-filter: blur(20px);
 }
 
+@media (max-width: 768px) {
+  .scroll-to-top {
+    bottom: 20px;
+    right: 20px;
+    width: 45px;
+    height: 45px;
+  }
+  
+  .scroll-to-top i {
+    font-size: 0.9rem;
+  }
+  
+  .progress-ring {
+    width: 47px;
+    height: 47px;
+  }
+}
+
 .scroll-to-top:hover {
   transform: translateY(-3px) scale(1.05);
   background: var(--surface-secondary);

@@ -198,5 +198,31 @@ body {
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  .section-title { font-size: 2rem; }
+  .container {
+    padding: 0 15px;
+  }
+  
+  .section-title { 
+    font-size: 2rem;
+    margin-bottom: 2.5rem;
+  }
+  
+  .btn {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    width: 100%;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .section-title { 
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+  }
+  
+  .btn {
+    padding: 12px 16px;
+    font-size: 0.85rem;
+  }
 }
