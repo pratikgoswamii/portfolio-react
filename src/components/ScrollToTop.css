@@ -4,19 +4,26 @@
   right: 30px;
   width: 50px;
   height: 50px;
-  background: var(--surface-primary);
+  padding: 0;
   border: 1px solid var(--border-subtle);
+  background: var(--surface-primary);
+  color: var(--text-primary);
+  font: inherit;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--text-primary);
   cursor: pointer;
   opacity: 0;
   visibility: hidden;
   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   z-index: 1000;
   backdrop-filter: blur(20px);
+}
+
+.scroll-to-top:focus-visible {
+  outline: 2px solid var(--accent-blue);
+  outline-offset: 3px;
 }
 
 @media (max-width: 768px) {

@@ -9,6 +9,7 @@ const Contact = () => {
     message: ''
   });
   const [submitStatus, setSubmitStatus] = useState('');
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   const handleChange = (e) => {
     setFormData({
@@ -20,6 +21,22 @@ const Contact = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     
+    if (!formData.name || !formData.email || !formData.message) {
+      setSubmitStatus('error');
+      setTimeout(() => {
+        setSubmitStatus('');
+      }, 2000);
+      return;
+    }
+
+    if (!emailPattern.test(formData.email)) {
+      setSubmitStatus('invalid-email');
+      setTimeout(() => {
+        setSubmitStatus('');
+      }, 2000);
+      return;
+    }
+
     if (formData.name && formData.email && formData.message) {
       setSubmitStatus('sending');
       
@@ -54,11 +71,6 @@ const Contact = () => {
           setSubmitStatus('');
         }, 3000);
       });
-    } else {
-      setSubmitStatus('error');
-      setTimeout(() => {
-        setSubmitStatus('');
-      }, 2000);
     }
   };
 
@@ -71,7 +83,7 @@ const Contact = () => {
     {
       icon: 'fas fa-phone',
       text: '+91-8712452036',
-      link: null
+      link: 'tel:+918712452036'
     },
     {
       icon: 'fab fa-linkedin',
@@ -149,6 +161,7 @@ const Contact = () => {
             >
               {submitStatus === 'sending' ? 'Sending...' : 
                submitStatus === 'sent' ? 'Message Sent!' :
+               submitStatus === 'invalid-email' ? 'Enter a valid email' :
                submitStatus === 'error' ? 'Please fill all fields' : 
                'Send Message'}
             </button>

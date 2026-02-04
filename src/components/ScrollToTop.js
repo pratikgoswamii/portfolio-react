@@ -30,7 +30,12 @@ const ScrollToTop = () => {
   const strokeDashoffset = circumference - (scrollProgress * circumference);
 
   return (
-    <div className={`scroll-to-top ${isVisible ? 'visible' : ''}`} onClick={scrollToTop}>
+    <button
+      type="button"
+      className={`scroll-to-top ${isVisible ? 'visible' : ''}`}
+      onClick={scrollToTop}
+      aria-label="Scroll to top"
+    >
       <svg className="progress-ring" width="64" height="64">
         <circle
           className="progress-ring-circle"
@@ -45,7 +50,7 @@ const ScrollToTop = () => {
         />
       </svg>
       <i className="fas fa-chevron-up"></i>
-    </div>
+    </button>
   );
 };
 

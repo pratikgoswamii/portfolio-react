@@ -4,31 +4,42 @@ import './Hero.css';
 const Hero = () => {
   const titleRef = useRef(null);
   const heroRef = useRef(null);
+  const animationFrameRef = useRef(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [typedName, setTypedName] = useState('');
+  const [showCaret, setShowCaret] = useState(true);
 
   useEffect(() => {
     // Typing effect
-    const title = titleRef.current;
-    if (title) {
-      const text = 'Pratik Goswami';
-      title.innerHTML = ''; // Clear any existing content
-      title.style.borderRight = '2px solid rgba(255, 255, 255, 0.7)';
-      
-      let i = 0;
-      const typeWriter = () => {
-        if (i < text.length) {
-          title.innerHTML = text.substring(0, i + 1);
-          i++;
-          setTimeout(typeWriter, 120);
-        } else {
-          setTimeout(() => {
-            title.style.borderRight = 'none';
-          }, 1000);
-        }
-      };
-      
-      setTimeout(typeWriter, 1000);
-    }
+    const text = 'Pratik Goswami';
+    let i = 0;
+    let timeoutId;
+
+    const typeWriter = () => {
+      if (i < text.length) {
+        setTypedName(text.substring(0, i + 1));
+        i += 1;
+        timeoutId = setTimeout(typeWriter, 120);
+      } else {
+        timeoutId = setTimeout(() => {
+          setShowCaret(false);
+        }, 1000);
+      }
+    };
+
+    timeoutId = setTimeout(typeWriter, 1000);
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+    };
   }, []);
 
   const handleMouseMove = (e) => {
@@ -37,11 +48,20 @@ const Hero = () => {
     
     const xPos = (clientX / innerWidth - 0.5) * 20;
     const yPos = (clientY / innerHeight - 0.5) * 20;
-    
-    setMousePosition({ x: xPos, y: yPos });
+
+    if (animationFrameRef.current) {
+      cancelAnimationFrame(animationFrameRef.current);
+    }
+
+    animationFrameRef.current = requestAnimationFrame(() => {
+      setMousePosition({ x: xPos, y: yPos });
+    });
   };
 
   const handleMouseLeave = () => {
+    if (animationFrameRef.current) {
+      cancelAnimationFrame(animationFrameRef.current);
+    }
     setMousePosition({ x: 0, y: 0 });
   };
 
@@ -73,7 +93,12 @@ const Hero = () => {
         }}
       >
         <div className="hero-badge animate-fade-up">DevOps Engineer</div>
-        <h1 ref={titleRef} className="animate-fade-up delay-1"></h1>
+        <h1
+          ref={titleRef}
+          className={`animate-fade-up delay-1 ${showCaret ? 'typing-caret' : ''}`}
+        >
+          {typedName}
+        </h1>
         <p className="animate-fade-up delay-2">2+ Years of Experience in Cloud Infrastructure & Automation</p>
         <div className="hero-location animate-fade-up delay-3">
           <i className="fas fa-map-marker-alt"></i>
